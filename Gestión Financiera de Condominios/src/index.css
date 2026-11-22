@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-body: 'DM Sans', sans-serif;
+  --font-heading: 'Manrope', sans-serif;
+  --color-navy: #0c2942;
+  --color-emerald: #087b60;
+  --color-emerald-dark: #06634d;
+  --color-mint: #e6f6f1;
+  --color-canvas: #f5f8f8;
+  --breakpoint-md: 50rem;
+}
