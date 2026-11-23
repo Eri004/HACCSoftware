@@ -14,12 +14,12 @@ const coloresEstado = {
 const columnas = ["Unidad", "Residente Responsable", "Alícuota (%)", "Cuota Ordinaria", "Cargo y Periodo", "Total y Saldo", "Estado"]
 
 export default function TablaCargosAlicuotas({ cargos }: TablaCargosAlicuotasProps) {
-  const [expanded, setExpanded] = useState<string[]>([])
+  const [expandido, establecerExpandido] = useState<string[]>([])
 
-  function toggle(numero: string) {
-    setExpanded(current => current.includes(numero)
-      ? current.filter(value => value !== numero)
-      : [...current, numero])
+  function alternar(numero: string) {
+    establecerExpandido(actual => actual.includes(numero)
+      ? actual.filter(valor => valor !== numero)
+      : [...actual, numero])
   }
 
   return (
@@ -31,23 +31,23 @@ export default function TablaCargosAlicuotas({ cargos }: TablaCargosAlicuotasPro
       <div className="overflow-x-auto">
         <table className="w-full min-w-[1120px] text-left text-sm">
           <thead className="bg-slate-50 text-slate-600">
-            <tr>{columnas.map(label => <th key={label} scope="col" className="px-5 py-4 font-medium">{label}</th>)}</tr>
+            <tr>{columnas.map(etiqueta => <th key={etiqueta} scope="col" className="px-5 py-4 font-medium">{etiqueta}</th>)}</tr>
           </thead>
           <tbody>
             {cargos.map(cargo => {
-              const open = expanded.includes(cargo.numero)
+              const abierto = expandido.includes(cargo.numero)
               const estado = estadoCargo(cargo)
-              const detailId = `detalle-${cargo.numero}`
+              const idDetalle = `detalle-${cargo.numero}`
               return (
                 <Fragment key={cargo.numero}>
                   <tr className="cursor-pointer border-t border-slate-200 hover:bg-slate-50"
-                    onClick={() => toggle(cargo.numero)}>
+                    onClick={() => alternar(cargo.numero)}>
                     <td className="px-5 py-4">
                       <button className="flex min-h-11 items-center gap-2 whitespace-nowrap text-left font-bold focus-visible:ring-2"
-                        aria-expanded={open} aria-controls={detailId}
-                        aria-label={`${open ? "Ocultar" : "Ver"} conceptos de ${cargo.unidad.torre} ${cargo.unidad.codigo}`}
-                        onClick={e => { e.stopPropagation(); toggle(cargo.numero) }}>
-                        <span aria-hidden="true">{open ? "−" : "+"}</span>
+                        aria-expanded={abierto} aria-controls={idDetalle}
+                        aria-label={`${abierto ? "Ocultar" : "Ver"} conceptos de ${cargo.unidad.torre} ${cargo.unidad.codigo}`}
+                        onClick={e => { e.stopPropagation(); alternar(cargo.numero) }}>
+                        <span aria-hidden="true">{abierto ? "−" : "+"}</span>
                         {cargo.unidad.torre} · {cargo.unidad.codigo}
                       </button>
                     </td>
@@ -65,12 +65,12 @@ export default function TablaCargosAlicuotas({ cargos }: TablaCargosAlicuotasPro
                     </td>
                     <td className="px-5 py-4"><span className={`rounded-full px-3 py-1 text-xs font-bold ${coloresEstado[estado]}`}>{estado}</span></td>
                   </tr>
-                  <tr id={detailId} hidden={!open}>
+                  <tr id={idDetalle} hidden={!abierto}>
                     <td colSpan={7} className="border-t border-slate-200 bg-slate-50 p-6">
                       <h3 className="mb-4 font-bold">Conceptos · {cargo.numero}</h3>
                       <table className="w-full text-sm">
-                        <thead><tr>{["Tipo", "Descripción", "Cantidad", "Valor unitario", "Subtotal"].map(label =>
-                          <th key={label} scope="col" className="px-4 py-3 font-medium text-slate-600">{label}</th>)}</tr></thead>
+                        <thead><tr>{["Tipo", "Descripción", "Cantidad", "Valor unitario", "Subtotal"].map(etiqueta =>
+                          <th key={etiqueta} scope="col" className="px-4 py-3 font-medium text-slate-600">{etiqueta}</th>)}</tr></thead>
                         <tbody>{cargo.detalles.map(detalle => (
                           <tr key={detalle.id} className="border-t border-slate-200">
                             <td className="px-4 py-3 text-xs font-bold">{detalle.tipo}</td>
