@@ -7,6 +7,12 @@ import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class ResidenteService extends CrudService<Residente> {
-    public ResidenteService() { super(); }
-    @Inject public ResidenteService(ResidenteRepository repository) { super(repository); }
+    public ResidenteService() {
+        super();
+    }
+
+    @Inject
+    public ResidenteService(ResidenteRepository repository) {
+        super(repository);
+    }
 }

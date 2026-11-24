@@ -7,6 +7,12 @@ import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class ComprobanteService extends CrudService<Comprobante> {
-    public ComprobanteService() { super(); }
-    @Inject public ComprobanteService(ComprobanteRepository repository) { super(repository); }
+    public ComprobanteService() {
+        super();
+    }
+
+    @Inject
+    public ComprobanteService(ComprobanteRepository repository) {
+        super(repository);
+    }
 }

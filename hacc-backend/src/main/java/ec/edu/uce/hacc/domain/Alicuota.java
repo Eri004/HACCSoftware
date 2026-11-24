@@ -3,14 +3,24 @@ package ec.edu.uce.hacc.domain;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "alicuota")
 public class Alicuota {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "id_alicuota")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_alicuota")
     public Long id;
-    @ManyToOne @JoinColumn(name = "id_unidad", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "id_unidad", nullable = false)
     public Unidad unidad;
     @Column(nullable = false)
     public BigDecimal porcentaje;

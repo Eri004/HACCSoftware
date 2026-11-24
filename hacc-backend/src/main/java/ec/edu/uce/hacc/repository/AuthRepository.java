@@ -7,7 +7,8 @@ import jakarta.persistence.EntityManager;
 
 @ApplicationScoped
 public class AuthRepository {
-    @Inject EntityManager entityManager;
+    @Inject
+    EntityManager entityManager;
 
     public Object[] buscarUsuario(String username) {
         List<?> rows = entityManager.createNativeQuery("""

@@ -22,15 +22,27 @@ import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class PagoService extends CrudService<Pago> {
-    @Inject PagoRepository pagoRepository;
-    @Inject CargoRepository cargoRepository;
-    @Inject PersonaRepository personaRepository;
-    @Inject UnidadRepository unidadRepository;
-    @Inject AplicacionPagoRepository aplicacionRepository;
-    @Inject ComprobanteRepository comprobanteRepository;
+    @Inject
+    PagoRepository pagoRepository;
+    @Inject
+    CargoRepository cargoRepository;
+    @Inject
+    PersonaRepository personaRepository;
+    @Inject
+    UnidadRepository unidadRepository;
+    @Inject
+    AplicacionPagoRepository aplicacionRepository;
+    @Inject
+    ComprobanteRepository comprobanteRepository;
 
-    public PagoService() { super(); }
-    @Inject public PagoService(PagoRepository repository) { super(repository); }
+    public PagoService() {
+        super();
+    }
+
+    @Inject
+    public PagoService(PagoRepository repository) {
+        super(repository);
+    }
 
     public List<Pago> listar(Long personaId) {
         return personaId == null ? pagoRepository.listAll() : pagoRepository.porPersona(personaId);

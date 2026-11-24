@@ -7,6 +7,12 @@ import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class UnidadService extends CrudService<Unidad> {
-    public UnidadService() { super(); }
-    @Inject public UnidadService(UnidadRepository repository) { super(repository); }
+    public UnidadService() {
+        super();
+    }
+
+    @Inject
+    public UnidadService(UnidadRepository repository) {
+        super(repository);
+    }
 }

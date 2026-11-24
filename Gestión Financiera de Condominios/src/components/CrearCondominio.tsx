@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react"
+import { useState, type SyntheticEvent } from "react"
 import type { Condo } from "../types"
 import { fields } from "../data/mockData"
 import Icono from "./Icono"
@@ -7,7 +7,7 @@ import { button, card, input } from "./styles"
 
 export default function CrearCondominio({ condominio, guardar, volver }: { condominio: Condo; guardar: (valor: Condo) => void; volver: () => void }) {
   const [valores, establecerValores] = useState(condominio)
-  function enviar(evento: FormEvent) {
+  function enviar(evento: SyntheticEvent<HTMLFormElement>) {
     evento.preventDefault()
     guardar(valores)
   }

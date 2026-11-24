@@ -12,7 +12,8 @@ import jakarta.ws.rs.NotAuthorizedException;
 
 @ApplicationScoped
 public class AuthService {
-    @Inject AuthRepository repository;
+    @Inject
+    AuthRepository repository;
 
     public static class User {
         public long id;
@@ -27,7 +28,8 @@ public class AuthService {
 
     public User login(String username, String password) {
         Object[] row = repository.buscarUsuario(username.trim());
-        if (row == null || !hash(password).equals(row[2])) throw new NotAuthorizedException("Usuario o contraseña incorrectos");
+        if (row == null || !hash(password).equals(row[2]))
+            throw new NotAuthorizedException("Usuario o contraseña incorrectos");
 
         User user = new User();
         user.id = ((Number) row[0]).longValue();

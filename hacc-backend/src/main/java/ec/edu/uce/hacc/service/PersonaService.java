@@ -7,6 +7,12 @@ import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class PersonaService extends CrudService<Persona> {
-    public PersonaService() { super(); }
-    @Inject public PersonaService(PersonaRepository repository) { super(repository); }
+    public PersonaService() {
+        super();
+    }
+
+    @Inject
+    public PersonaService(PersonaRepository repository) {
+        super(repository);
+    }
 }

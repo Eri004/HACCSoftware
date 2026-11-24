@@ -15,14 +15,18 @@ import jakarta.ws.rs.core.MediaType;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthResource {
-    @Inject AuthService service;
+    @Inject
+    AuthService service;
 
     public static class LoginRequest {
-        @NotBlank public String username;
-        @NotBlank public String password;
+        @NotBlank
+        public String username;
+        @NotBlank
+        public String password;
     }
 
-    @POST @Path("/login")
+    @POST
+    @Path("/login")
     public User login(@Valid LoginRequest request) {
         return service.login(request.username, request.password);
     }

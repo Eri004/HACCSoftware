@@ -7,7 +7,10 @@ import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class CondominioService extends CrudService<Condominio> {
-    public CondominioService() { super(); }
+    public CondominioService() {
+        super();
+    }
+
     @Inject
     public CondominioService(CondominioRepository repository) {
         super(repository);
