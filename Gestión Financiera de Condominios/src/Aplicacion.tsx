@@ -1,6 +1,5 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { Cargo, Condo, Payment, User, View } from "./types"
-import { readLocal, writeLocal } from "./utils/storage"
 import { api } from "./services/api"
 import EncabezadoAplicacion from "./components/EncabezadoAplicacion"
 import Bienvenida from "./components/Bienvenida"
@@ -14,11 +13,17 @@ export default function Aplicacion() {
   const [usuario, establecerUsuario] = useState<User | null>(null)
   const [vistaAdmin, establecerVistaAdmin] = useState<View>("welcome")
   const [vistaResidente, establecerVistaResidente] = useState<View>("welcome")
-  const [condominio, establecerCondominio] = useState<Condo>(() => readLocal("hacc-condo", { name: "", address: "", city: "", units: "", email: "", ruc: "" }))
+  const [condominio, establecerCondominio] = useState<Condo>({ name: "", address: "", city: "", units: "", email: "", ruc: "" })
   const [cargosResidente, establecerCargosResidente] = useState<Cargo[]>([])
   const [pagosResidente, establecerPagosResidente] = useState<Payment[]>([])
   const [pago, establecerPago] = useState<Payment | null>(null)
-  const [errorAlmacenamiento, establecerErrorAlmacenamiento] = useState("")
+  const [errorCondominio, establecerErrorCondominio] = useState("")
+
+  useEffect(() => {
+    api.getCondominio().then(datos => {
+      if (datos) establecerCondominio(datos)
+    }).catch(motivo => establecerErrorCondominio(motivo instanceof Error ? motivo.message : "No se pudo cargar el condominio."))
+  }, [])
 
   const rol = usuario?.role ?? null
   const vista = !usuario ? "welcome" : usuario.role === "admin" ? vistaAdmin : vistaResidente
@@ -53,7 +58,7 @@ export default function Aplicacion() {
     establecerCargosResidente([])
     establecerPagosResidente([])
     establecerPago(null)
-    establecerErrorAlmacenamiento("")
+    establecerErrorCondominio("")
   }
 
   function irInicio() {
@@ -61,11 +66,15 @@ export default function Aplicacion() {
     else if (usuario?.role === "resident") establecerVistaResidente(cargosResidente.some(cargo => cargo.saldo > 0) ? "debt" : "current")
   }
 
-  function guardarCondominio(valor: Condo) {
-    establecerCondominio(valor)
-    const guardado = writeLocal("hacc-condo", valor)
-    establecerErrorAlmacenamiento(guardado ? "" : "No se pudo guardar en este navegador. Los datos se mantendrán solo mientras la página siga abierta.")
-    irA("dashboard")
+  async function guardarCondominio(valor: Condo) {
+    try {
+      const guardado = await api.guardarCondominio(valor)
+      establecerCondominio(guardado)
+      establecerErrorCondominio("")
+      irA("dashboard")
+    } catch (motivo) {
+      establecerErrorCondominio(motivo instanceof Error ? motivo.message : "No se pudo guardar el condominio.")
+    }
   }
 
   async function guardarPago(valor: { metodo: string; referencia: string; archivo: string }) {
@@ -94,7 +103,7 @@ export default function Aplicacion() {
     <div className="min-h-screen overflow-x-hidden bg-canvas font-body text-navy">
       <EncabezadoAplicacion rol={rol} alCerrarSesion={cerrarSesion} alInicio={irInicio} />
       <main className={vista === "welcome" ? "w-full" : "mx-auto min-h-[calc(100dvh-93px)] max-w-6xl px-5 py-10 md:px-10 md:py-14"}>
-        {errorAlmacenamiento && <p role="alert" className="mb-5 rounded-xl bg-amber-50 p-4 text-sm text-amber-900">{errorAlmacenamiento}</p>}
+        {errorCondominio && <p role="alert" className="mb-5 rounded-xl bg-amber-50 p-4 text-sm text-amber-900">{errorCondominio}</p>}
         {vista === "welcome" && <Bienvenida alIniciarSesion={iniciarSesion} />}
         {vista === "create" && <CrearCondominio condominio={condominio} volver={() => irA("dashboard")} guardar={guardarCondominio} />}
         {vista === "dashboard" && <PanelControl condominio={condominio} alCrear={() => irA("create")} />}

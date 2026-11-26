@@ -1,6 +1,9 @@
 export type Role = "admin" | "resident"
 export type View = "welcome" | "create" | "dashboard" | "debt" | "payment" | "success" | "current"
-export type Condo = { name: string; address: string; city: string; units: string; email: string; ruc: string }
+export type Condo = {
+  id?: number; name: string; address: string; city: string; units: string; email: string; ruc: string
+  diaVencimiento?: number; tasaMoraAnual?: number; periodoCerradoHasta?: string | null; estado?: string
+}
 export type User = {
   id: number
   username: string
