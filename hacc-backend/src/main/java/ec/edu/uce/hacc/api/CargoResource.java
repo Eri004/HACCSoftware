@@ -1,7 +1,5 @@
 package ec.edu.uce.hacc.api;
 
-import java.util.List;
-
 import ec.edu.uce.hacc.domain.Cargo;
 import ec.edu.uce.hacc.service.CargoService;
 import jakarta.inject.Inject;
@@ -16,6 +14,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 @Path("/api/cargos")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -25,24 +24,24 @@ public class CargoResource {
     CargoService service;
 
     @GET
-    public List<Cargo> listar(@QueryParam("personaId") Long personaId) {
-        return service.listar(personaId);
+    public Response listar(@QueryParam("personaId") Long personaId) {
+        return Response.ok(service.listar(personaId)).build();
     }
 
     @GET
     @Path("/{id}")
-    public Cargo obtener(@PathParam("id") long id) {
-        return service.obtener(id);
+    public Response obtener(@PathParam("id") long id) {
+        return Response.ok(service.obtener(id)).build();
     }
 
     @POST
-    public Cargo crear(Cargo entity) {
-        return service.crear(entity);
+    public Response crear(Cargo entity) {
+        return Response.status(Status.CREATED).entity(service.crear(entity)).build();
     }
 
     @PUT
-    public Cargo actualizar(Cargo entity) {
-        return service.actualizar(entity);
+    public Response actualizar(Cargo entity) {
+        return Response.ok(service.actualizar(entity)).build();
     }
 
     @DELETE

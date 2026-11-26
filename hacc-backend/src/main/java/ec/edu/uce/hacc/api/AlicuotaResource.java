@@ -1,12 +1,12 @@
 package ec.edu.uce.hacc.api;
 
-import java.util.List;
 import ec.edu.uce.hacc.domain.Alicuota;
 import ec.edu.uce.hacc.service.AlicuotaService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 @Path("/api/alicuotas")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -16,24 +16,24 @@ public class AlicuotaResource {
     AlicuotaService service;
 
     @GET
-    public List<Alicuota> listar(@QueryParam("personaId") Long personaId) {
-        return service.listar(personaId);
+    public Response listar(@QueryParam("personaId") Long personaId) {
+        return Response.ok(service.listar(personaId)).build();
     }
 
     @GET
     @Path("/{id}")
-    public Alicuota obtener(@PathParam("id") long id) {
-        return service.obtener(id);
+    public Response obtener(@PathParam("id") long id) {
+        return Response.ok(service.obtener(id)).build();
     }
 
     @POST
-    public Alicuota crear(Alicuota entity) {
-        return service.crear(entity);
+    public Response crear(Alicuota entity) {
+        return Response.status(Status.CREATED).entity(service.crear(entity)).build();
     }
 
     @PUT
-    public Alicuota actualizar(Alicuota entity) {
-        return service.actualizar(entity);
+    public Response actualizar(Alicuota entity) {
+        return Response.ok(service.actualizar(entity)).build();
     }
 
     @DELETE

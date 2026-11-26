@@ -10,6 +10,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("/api/auth")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -27,7 +28,7 @@ public class AuthResource {
 
     @POST
     @Path("/login")
-    public User login(@Valid LoginRequest request) {
-        return service.login(request.username, request.password);
+    public Response login(@Valid LoginRequest request) {
+        return Response.ok(service.login(request.username, request.password)).build();
     }
 }

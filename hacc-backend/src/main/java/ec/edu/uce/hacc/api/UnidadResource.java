@@ -1,7 +1,5 @@
 package ec.edu.uce.hacc.api;
 
-import java.util.List;
-
 import ec.edu.uce.hacc.domain.Unidad;
 import ec.edu.uce.hacc.service.UnidadService;
 import jakarta.inject.Inject;
@@ -15,6 +13,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 @Path("/api/unidades")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -24,24 +23,24 @@ public class UnidadResource {
     UnidadService service;
 
     @GET
-    public List<Unidad> listar() {
-        return service.listar();
+    public Response listar() {
+        return Response.ok(service.listar()).build();
     }
 
     @GET
     @Path("/{id}")
-    public Unidad obtener(@PathParam("id") long id) {
-        return service.obtener(id);
+    public Response obtener(@PathParam("id") long id) {
+        return Response.ok(service.obtener(id)).build();
     }
 
     @POST
-    public Unidad crear(Unidad entity) {
-        return service.crear(entity);
+    public Response crear(Unidad entity) {
+        return Response.status(Status.CREATED).entity(service.crear(entity)).build();
     }
 
     @PUT
-    public Unidad actualizar(Unidad entity) {
-        return service.actualizar(entity);
+    public Response actualizar(Unidad entity) {
+        return Response.ok(service.actualizar(entity)).build();
     }
 
     @DELETE

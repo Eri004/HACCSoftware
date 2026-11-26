@@ -1,7 +1,5 @@
 package ec.edu.uce.hacc.api;
 
-import java.util.List;
-
 import ec.edu.uce.hacc.domain.Comprobante;
 import ec.edu.uce.hacc.service.ComprobanteService;
 import jakarta.inject.Inject;
@@ -15,6 +13,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 @Path("/api/comprobantes")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -24,24 +23,24 @@ public class ComprobanteResource {
     ComprobanteService service;
 
     @GET
-    public List<Comprobante> listar() {
-        return service.listar();
+    public Response listar() {
+        return Response.ok(service.listar()).build();
     }
 
     @GET
     @Path("/{id}")
-    public Comprobante obtener(@PathParam("id") long id) {
-        return service.obtener(id);
+    public Response obtener(@PathParam("id") long id) {
+        return Response.ok(service.obtener(id)).build();
     }
 
     @POST
-    public Comprobante crear(Comprobante entity) {
-        return service.crear(entity);
+    public Response crear(Comprobante entity) {
+        return Response.status(Status.CREATED).entity(service.crear(entity)).build();
     }
 
     @PUT
-    public Comprobante actualizar(Comprobante entity) {
-        return service.actualizar(entity);
+    public Response actualizar(Comprobante entity) {
+        return Response.ok(service.actualizar(entity)).build();
     }
 
     @DELETE
